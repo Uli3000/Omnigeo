@@ -7,7 +7,7 @@ export default function Footer() {
         </p>
 
         <p className="text-xs tracking-widest text-slate-500 uppercase">
-          © 2024 Ulises Castro
+          © 2026 Ulises Castro
         </p>
       </div>
     </footer>
