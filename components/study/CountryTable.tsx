@@ -1,9 +1,11 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Country } from '@/types/country'
 import { CONTINENTS } from '@/lib/constants'
 import Link from 'next/link'
+import MapPreviewModal from './MapPreviewModal'
 
 interface Props {
   countries: Country[]
@@ -11,10 +13,12 @@ interface Props {
 }
 
 export default function CountryTable({ countries, continent }: Props) {
+  const router = useRouter()
   const currentContinent = CONTINENTS.find((c) => c.key === continent)
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState<{code: string; name: string; latlng: [number, number]; area: number; subregion: string} | null>(null)
 
   const filtered = countries.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -94,6 +98,7 @@ export default function CountryTable({ countries, continent }: Props) {
         {paginatedCountries.map((country, index) => (
             <div
             key={country.cca2}
+            onClick={() => router.push(`/study/${continent}/${country.cca2.toLowerCase()}`)}
             className={`grid grid-cols-[60px_1fr_1fr_160px_80px] px-6 py-4 items-center border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer gap-6 ${
                 index % 2 === 0 ? 'bg-transparent' : 'bg-white/2'
             }`}
@@ -107,7 +112,7 @@ export default function CountryTable({ countries, continent }: Props) {
                 <span className="text-sm text-white/60">{country.capital}</span>
                 <span className="text-xs px-2 py-1 rounded bg-white/10 text-white/60 w-fit uppercase tracking-wide">{country.subregion}</span>
                 <div className="flex justify-center">
-                    <button className="p-2 rounded hover:bg-white/10 transition-colors text-white/40 hover:text-white/80">
+                    <button onClick={(e) => {e.stopPropagation(); setSelectedCountry({ code: country.cca3, name: country.name,latlng: country.latlng, area: country.area, subregion: country.subregion })}} className="p-2 rounded hover:bg-white/10 transition-colors text-white/40 hover:text-white/80">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
                         <line x1="9" y1="3" x2="9" y2="18"/>
@@ -156,6 +161,17 @@ export default function CountryTable({ countries, continent }: Props) {
                 </button>
             </div>
         </div>
+
+        <MapPreviewModal
+            isOpen={selectedCountry !== null}
+            onClose={() => setSelectedCountry(null)}
+            countryCode={selectedCountry?.code ?? ''}
+            countryName={selectedCountry?.name ?? ''}
+            continent={continent}
+            latlng={selectedCountry?.latlng ?? [0, 0]}
+            area={selectedCountry?.area ?? 0}
+            subregion={selectedCountry?.subregion ?? ''}
+        />
 
     </div>
   )
