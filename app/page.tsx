@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const continents = [
@@ -81,15 +82,19 @@ export default function Home() {
                 
                 <div className="flex gap-3">
                   <button className="relative px-5 py-2 text-sm font-medium text-white rounded-lg overflow-hidden group/study">
-                    <div className="absolute inset-0 bg-linear-to-r from-blue-500/70 to-cyan-500/70 backdrop-blur-sm transition-all duration-300 group-hover/study:from-blue-500 group-hover/study:to-cyan-500" />
-                    <div className="absolute inset-0 bg-linear-to-r from-blue-400 to-cyan-400 opacity-0 group-hover/study:opacity-100 transition-opacity duration-300" />
-                    <span className="relative">Study Mode</span>
+                    <Link href={`/study/${continent.name.toLocaleLowerCase()}`}>
+                      <div className="absolute inset-0 bg-linear-to-r from-blue-500/70 to-cyan-500/70 backdrop-blur-sm transition-all duration-300 group-hover/study:from-blue-500 group-hover/study:to-cyan-500" />
+                      <div className="absolute inset-0 bg-linear-to-r from-blue-400 to-cyan-400 opacity-0 group-hover/study:opacity-100 transition-opacity duration-300" />
+                      <span className="relative">Study Mode</span>
+                    </Link>
                   </button>
                   
                   <button className="relative px-5 py-2 text-sm font-medium text-white rounded-lg overflow-hidden group/quiz">
-                    <div className="absolute inset-0 bg-linear-to-r from-purple-500/70 to-pink-500/70 backdrop-blur-sm transition-all duration-300 group-hover/quiz:from-purple-500 group-hover/quiz:to-pink-500" />
-                    <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-400 opacity-0 group-hover/quiz:opacity-100 transition-opacity duration-300" />
-                    <span className="relative">Quiz Mode</span>
+                    <Link href={`/quiz/${continent.name.toLocaleLowerCase()}`}>
+                      <div className="absolute inset-0 bg-linear-to-r from-purple-500/70 to-pink-500/70 backdrop-blur-sm transition-all duration-300 group-hover/quiz:from-purple-500 group-hover/quiz:to-pink-500" />
+                      <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-400 opacity-0 group-hover/quiz:opacity-100 transition-opacity duration-300" />
+                      <span className="relative">Quiz Mode</span>
+                    </Link>
                   </button>
                 </div>
               </div>

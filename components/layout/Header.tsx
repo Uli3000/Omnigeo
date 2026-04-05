@@ -20,7 +20,7 @@ export default function Header() {
   ] as const;
 
   return (
-    <header className="relative w-full bg-linear-to-r from-[#0F172A] to-[#1E293B] border-b border-white/10">
+    <header className="relative w-full bg-linear-to-r from-[#0F172A] to-[#1E293B] border-b border-white/10 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3),0_4px_6px_-2px_rgba(0,0,0,0.2)]">
       <div className="flex items-center px-8 py-5">
         
         <div className="font-bold text-white text-xl tracking-wide">
