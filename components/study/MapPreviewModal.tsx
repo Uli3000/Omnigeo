@@ -15,7 +15,7 @@ const NAME_FIXES: Record<string, string> = {
   'Bosnia and Herzegovina': 'Bosnia and Herz.',
   'Dominican Republic': 'Dominican Rep.',
   'Antigua and Barbuda': 'Antigua and Barb.',
-  'Saint Kitts and Nevis':'St. Pierre and Miquelon',
+  'Saint Kitts and Nevis':'St. Kitts and Nevis',
   'Saint Vincent and the Grenadines':'St. Vin. and Gren.',
   'United States': 'United States of America',
   'North Macedonia': 'Macedonia',
