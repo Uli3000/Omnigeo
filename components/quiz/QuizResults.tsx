@@ -20,6 +20,7 @@ export default function QuizResults({ continent }: Props) {
   const timeSeconds = Math.round((Date.now() - startTime) / 1000)
   const minutes = Math.floor(timeSeconds / 60)
   const seconds = timeSeconds % 60
+  const firstTry = results.filter((r) => r.attemptsUsed === 1 && r.status === 'correct').length
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center p-8">
@@ -28,11 +29,12 @@ export default function QuizResults({ continent }: Props) {
         <h1 className="text-6xl font-bold text-center mb-1">{percentage}%</h1>
         <p className="text-white/40 text-sm text-center mb-8">Países correctos</p>
 
-        <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-4 gap-3 mb-8">
           {[
             { label: 'Correctos', value: correct, color: 'text-green-400' },
             { label: 'Fallidos', value: failed, color: 'text-red-400' },
             { label: 'Saltados', value: skipped, color: 'text-white/40' },
+            { label: 'A la primera', value: firstTry, color: 'text-blue-400' },
           ].map((s) => (
             <div key={s.label} className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
               <p className={`text-2xl font-semibold ${s.color}`}>{s.value}</p>
