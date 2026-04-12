@@ -1,7 +1,5 @@
-import React from 'react'
+import HistoryClient from '@/components/history/HistoryClient'
 
-export default function page() {
-  return (
-    <div>page</div>
-  )
+export default function HistoryPage() {
+  return <HistoryClient />
 }

@@ -5,7 +5,7 @@ export default function Home() {
   const continents = [
     {
       name: "Europe",
-      description: "44 Paisses • Alta Densidad de Aprendizaje",
+      description: "46 Paisses • Alta Densidad de Aprendizaje",
       image: "/europe.jpg",
       size: "md:col-span-2 lg:col-span-2",
       height: "h-80 md:h-96",

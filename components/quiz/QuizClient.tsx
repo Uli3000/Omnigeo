@@ -54,7 +54,7 @@ export default function QuizClient({ countries, continent }: Props) {
           >
             <div className="text-left">
               <p className="text-sm font-medium">Modo capitales</p>
-              <p className="text-xs text-white/40 mt-0.5">Encuentra las capitales de cada país tambien</p>
+              <p className="text-xs text-white/40 mt-0.5">Encuentra las capitales de cada país</p>
             </div>
             <div className={`w-8 h-4 rounded-full transition-colors relative ml-4 shrink-0 ${capitalsMode ? 'bg-blue-600' : 'bg-white/20'}`}>
               <div className={`w-3 h-3 rounded-full bg-white absolute top-0.5 transition-all ${capitalsMode ? 'right-0.5' : 'left-0.5'}`} />

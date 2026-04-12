@@ -8,6 +8,8 @@ export default function Header() {
 
   const isActive = (path: string): boolean => {
     if (path === "/" && pathname === "/") return true;
+    if (path === "/study/europe" && pathname.startsWith("/study/")) return true;
+    if (path === "/quiz/europe" && pathname.startsWith("/quiz/")) return true;
     if (path !== "/" && pathname.startsWith(path)) return true;
     return false;
   };
