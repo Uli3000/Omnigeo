@@ -1,3 +1,6 @@
+"use client"
+import { useLanguage } from "@/contexts/LanguageContext"
+
 interface Landmark {
   name: string
   description: string
@@ -9,6 +12,7 @@ interface Props {
 }
 
 export default function CountryLandmarks({ landmarks, photos }: Props) {
+  const { t } = useLanguage()
   const validItems = landmarks
     .map((landmark, i) => ({ landmark, photo: photos[i] }))
     .filter((item) => item.photo)
@@ -18,7 +22,7 @@ export default function CountryLandmarks({ landmarks, photos }: Props) {
   return (
     <div className="mb-10">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-medium">Cultural Landmarks</h2>
+        <h2 className="text-lg font-medium">{t('country.landmarks')}</h2>
       </div>
 
       <div className="flex flex-col gap-3">

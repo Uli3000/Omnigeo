@@ -1,9 +1,16 @@
+import { useLanguage } from "@/contexts/LanguageContext"
+
 interface Props {
   attempts: number
   max: number
 }
 
 export default function AttemptDots({ attempts, max }: Props) {
+  const { t } = useLanguage()
+  const left = max - attempts
+  const attemptWord = left === 1 ? t('quiz.attempts') : t('quiz.attempts.plural')
+  const leftWord = left === 1 ? t('quiz.attempts.left') : t('quiz.attempts.left.plural')
+
   return (
     <div className="flex items-center gap-2">
       <div className="flex gap-1.5">
@@ -17,7 +24,7 @@ export default function AttemptDots({ attempts, max }: Props) {
         ))}
       </div>
       <span className="text-xs text-white/30">
-        {max - attempts} intento{max - attempts !== 1 ? 's' : ''} restante{max - attempts !== 1 ? 's' : ''}
+        {left} {attemptWord} {leftWord}
       </span>
     </div>
   )

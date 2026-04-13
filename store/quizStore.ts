@@ -97,7 +97,9 @@ export const useQuizStore = create<QuizState>((set, get) => {
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
       const target = phase === 'country' ? country.name : country.capital
-      const isCorrect = normalize(answer) === normalize(target)
+      const targetEs = phase === 'country' ? country.nameEs : country.capital
+
+      const isCorrect = normalize(answer) === normalize(target) || (targetEs ? normalize(answer) === normalize(targetEs) : false)
 
       if (isCorrect) {
         if (phase === 'country' && capitalsMode) {

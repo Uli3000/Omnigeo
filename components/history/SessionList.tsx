@@ -1,3 +1,4 @@
+import { useLanguage } from '@/contexts/LanguageContext'
 import { Session } from '@/types/country'
 
 interface Props {
@@ -13,6 +14,8 @@ const CONTINENT_LABELS: Record<string, string> = {
 }
 
 export default function SessionList({ sessions }: Props) {
+  const { t } = useLanguage()
+  
   return (
     <div className="flex flex-col gap-2">
       {sessions.map((s) => {
@@ -30,7 +33,7 @@ export default function SessionList({ sessions }: Props) {
               <div>
                 <p className="text-sm font-medium">{CONTINENT_LABELS[s.continent] ?? s.continent}</p>
                 <p className="text-xs text-white/40">
-                  {s.capitalsMode ? 'Países + Capitales' : 'Solo Países'}
+                  {s.capitalsMode ? t('history.mode.capitals') : t('history.mode.countries')}
                 </p>
               </div>
             </div>
@@ -49,7 +52,7 @@ export default function SessionList({ sessions }: Props) {
                 </div>
               </div>
               <div className="text-right w-12">
-                <p className="text-xs text-white/30">Tiempo</p>
+                <p className="text-xs text-white/30">{t('history.time')}</p>
                 <p className="text-xs font-medium mt-1">
                   {minutes}:{String(seconds).padStart(2, '0')}
                 </p>

@@ -1,3 +1,6 @@
+"use client"
+import { useLanguage } from "@/contexts/LanguageContext"
+
 interface Curiosity {
   title: string
   description: string
@@ -8,9 +11,10 @@ interface Props {
 }
 
 export default function CountryCuriosities({ curiosities }: Props) {
+  const { t } = useLanguage()
   return (
     <div>
-      <h2 className="text-lg font-medium mb-4">Curiosidades</h2>
+      <h2 className="text-lg font-medium mb-4">{t('country.curiosities')}</h2>
       <div className="space-y-3">
         {curiosities.map((c, i) => (
           <div key={i} className="flex gap-4 bg-white/5 border border-white/10 rounded-lg p-4">

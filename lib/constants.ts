@@ -27,5 +27,5 @@ export const RESTCOUNTRIES_FIELDS = [
   'name', 'capital', 'flags', 'coatOfArms',
   'cca2', 'cca3', 'subregion', 'region',
   'population', 'area', 'languages',
-  'currencies', 'latlng','independent',
+  'currencies', 'latlng','independent','translations'
 ].join(',')

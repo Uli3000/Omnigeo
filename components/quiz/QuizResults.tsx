@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation'
 import { CONTINENTS } from '@/lib/constants'
 import Link from 'next/link'
 import { useQuizStore } from '@/store/quizStore'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { useMemo } from 'react'
 
 interface Props {
   continent: string
@@ -10,6 +12,7 @@ interface Props {
 
 export default function QuizResults({ continent }: Props) {
   const router = useRouter()
+  const { t, language } = useLanguage()
   const { results, startTime, countries, startQuiz, resetQuiz } = useQuizStore()
 
   const correct = results.filter((r) => r.status === 'correct').length
@@ -17,7 +20,7 @@ export default function QuizResults({ continent }: Props) {
   const skipped = results.filter((r) => r.status === 'skipped').length
   const total = results.length
   const percentage = Math.round((correct / total) * 100)
-  const timeSeconds = Math.round((Date.now() - startTime) / 1000)
+  const timeSeconds = useMemo(() => Math.round((Date.now() - startTime) / 1000),[])
   const minutes = Math.floor(timeSeconds / 60)
   const seconds = timeSeconds % 60
   const firstTry = results.filter((r) => r.attemptsUsed === 1 && r.status === 'correct').length
@@ -25,16 +28,16 @@ export default function QuizResults({ continent }: Props) {
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center p-8">
       <div className="max-w-lg w-full">
-        <p className="text-xs text-white/40 uppercase tracking-widest mb-2 text-center">Resultados</p>
+        <p className="text-xs text-white/40 uppercase tracking-widest mb-2 text-center">{t('results.title')}</p>
         <h1 className="text-6xl font-bold text-center mb-1">{percentage}%</h1>
-        <p className="text-white/40 text-sm text-center mb-8">Países correctos</p>
+        <p className="text-white/40 text-sm text-center mb-8">{t('results.correct')}</p>
 
         <div className="grid grid-cols-4 gap-3 mb-8">
           {[
-            { label: 'Correctos', value: correct, color: 'text-green-400' },
-            { label: 'Fallidos', value: failed, color: 'text-red-400' },
-            { label: 'Saltados', value: skipped, color: 'text-white/40' },
-            { label: 'A la primera', value: firstTry, color: 'text-blue-400' },
+            { label: t('results.correct'), value: correct, color: 'text-green-400' },
+            { label: t('results.failed'), value: failed, color: 'text-red-400' },
+            { label: t('results.skipped'), value: skipped, color: 'text-white/40' },
+            { label: t('results.firsttry'), value: firstTry, color: 'text-blue-400' },
           ].map((s) => (
             <div key={s.label} className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
               <p className={`text-2xl font-semibold ${s.color}`}>{s.value}</p>
@@ -44,12 +47,12 @@ export default function QuizResults({ continent }: Props) {
         </div>
 
         <p className="text-center text-sm text-white/40 mb-8">
-          Tiempo total: {minutes}:{String(seconds).padStart(2, '0')}
+          {t('results.time')}: {minutes}:{String(seconds).padStart(2, '0')}
         </p>
 
         {failed > 0 && (
           <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-8">
-            <p className="text-xs text-white/40 uppercase tracking-widest mb-3">Países fallidos</p>
+            <p className="text-xs text-white/40 uppercase tracking-widest mb-3">{t('results.failed.list')}</p>
             <div className="flex flex-wrap gap-2">
               {results
                 .filter((r) => r.status === 'failed' || r.status === 'skipped')
@@ -58,7 +61,11 @@ export default function QuizResults({ continent }: Props) {
                   return (
                     <div key={r.countryCode} className="flex items-center gap-1.5 bg-white/5 rounded px-2 py-1">
                       <img src={country?.flag} className="w-4 h-3 object-cover rounded-sm" />
-                      <span className="text-xs text-white/60">{r.countryName}</span>
+                      <span className="text-xs text-white/60">
+                        {language === 'es' && countries.find((c) => c.cca2 === r.countryCode)?.nameEs
+                          ? countries.find((c) => c.cca2 === r.countryCode)?.nameEs
+                          : r.countryName}
+                      </span>
                     </div>
                   )
                 })}
@@ -87,14 +94,14 @@ export default function QuizResults({ continent }: Props) {
             onClick={() => startQuiz(countries, continent)}
             className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
           >
-            Jugar de nuevo
+            {t('results.replay')}
           </button>
           <Link
             href={`/study/${continent}`}
             onClick={resetQuiz}
             className="flex-1 py-3 border border-white/10 hover:bg-white/5 rounded-lg text-sm text-center transition-colors"
           >
-            Volver a estudiar
+            {t('results.study')}
           </Link>
         </div>
       </div>

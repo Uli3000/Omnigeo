@@ -1,3 +1,5 @@
+"use client"
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Country } from '@/types/country'
 
 interface Props {
@@ -15,12 +17,13 @@ function StatCard({ icon, label, value }: { icon: string; label: string; value: 
 }
 
 export default function CountryStats({ country }: Props) {
+  const { t } = useLanguage()
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
-      <StatCard icon="👥" label="Población" value={country.population.toLocaleString('es-MX')} />
-      <StatCard icon="🌐" label="Idioma principal" value={country.languages[0]} />
-      <StatCard icon="💰" label="Moneda" value={country.currencies[0]} />
-      <StatCard icon="📐" label="Área total" value={`${country.area.toLocaleString('es-MX')} km²`} />
+      <StatCard icon="👥" label={t('country.population')} value={country.population.toLocaleString('es-MX')} />
+      <StatCard icon="🌐" label={t('country.language')} value={country.languages[0]} />
+      <StatCard icon="💰" label={t('country.currency')} value={country.currencies[0]} />
+      <StatCard icon="📐" label={t('country.area')} value={`${country.area.toLocaleString('es-MX')} km²`} />
     </div>
   )
 }

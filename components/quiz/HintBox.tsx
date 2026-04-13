@@ -1,3 +1,4 @@
+import { useLanguage } from '@/contexts/LanguageContext'
 import { Country } from '@/types/country'
 import { useMemo } from 'react'
 
@@ -46,10 +47,11 @@ const getLetterHint = (str: string) => {
 export default function HintBox({ country, hintsRevealed, phase }: Props) {
   const target = phase === 'country' ? country.name : country.capital
   const letterHint = useMemo(() => getLetterHint(target), [target])
+  const { t } = useLanguage()
 
   const hints = [
-    `Tiene ${target.replace(/ /g, '').length} letras`,
-    `Empieza por "${target[0].toUpperCase()}"`,
+    `${t('quiz.hints.starts')} "${target.replace(/ /g, '').length}" ${t('quiz.hints.letters')}`,
+    `${t('quiz.hints.starts')} "${target[0].toUpperCase()}"`,
     letterHint,
   ]
 
@@ -57,7 +59,7 @@ export default function HintBox({ country, hintsRevealed, phase }: Props) {
 
   return (
     <div className="bg-white/5 border border-white/10 rounded-lg p-3">
-      <p className="text-xs text-white/30 mb-2 uppercase tracking-widest">Pistas</p>
+      <p className="text-xs text-white/30 mb-2 uppercase tracking-widest">{t('quiz.hints.title')}</p>
       <div className="flex flex-col gap-1.5">
         {hints.slice(0, hintsRevealed).map((hint, i) => (
           <div key={i} className="flex items-center gap-2">

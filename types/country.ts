@@ -13,6 +13,7 @@ export interface Country {
   languages: string[]
   currencies: string[]
   latlng: [number, number]
+  nameEs?: string
 }
 
 export interface QuizResult {

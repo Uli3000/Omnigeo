@@ -1,5 +1,7 @@
+"use client"
 import Link from 'next/link'
 import { Country } from '@/types/country'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface Props {
   country: Country
@@ -8,6 +10,7 @@ interface Props {
 }
 
 export default function CountryHero({ country, continent, photo }: Props) {
+  const { t, language } = useLanguage()
   const continentWord = continent.charAt(0).toUpperCase().concat(continent.slice(1,continent.length))
 
   return (
@@ -17,14 +20,14 @@ export default function CountryHero({ country, continent, photo }: Props) {
           href={`/study/${continent}`}
           className="text-xs text-white/40 hover:text-white/70 transition-colors inline-flex items-center gap-2 mb-8"
         >
-          ← Volver a {continentWord}
+          ← {t('country.back')} {continentWord}
         </Link>
       </div>
 
       <div className="max-w-4xl mx-auto px-8 grid grid-cols-2 gap-8 items-start mb-10">
         <div>
           <p className="text-xs text-white/40 uppercase tracking-widest mb-3">{country.subregion}</p>
-          <h1 className="text-6xl font-bold mb-4">{country.name.toUpperCase()}</h1>
+          <h1 className="text-6xl font-bold mb-4">{language === 'es' && country.nameEs ? country.nameEs.toUpperCase() : country.name.toUpperCase()}</h1>
           <div className="flex gap-6">
             <div>
               <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Capital</p>

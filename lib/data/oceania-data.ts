@@ -9,7 +9,7 @@ export const oceaniaData: Record<string, CountryExtra> = {
       { title: "Los aborígenes más antiguos del mundo", description: "Los pueblos aborígenes australianos tienen la cultura continua más antigua del mundo, con más de 65,000 años de historia ininterrumpida." },
     ],
     landmarks: [
-      { name: "Ópera de Sídney", description: "Obra maestra de la arquitectura del siglo XX declarada Patrimonio UNESCO, símbolo de Australia y una de las edificaciones más reconocibles del mundo." },
+      { name: "Sidney Opera", description: "Obra maestra de la arquitectura del siglo XX declarada Patrimonio UNESCO, símbolo de Australia y una de las edificaciones más reconocibles del mundo." },
       { name: "Gran Barrera de Coral", description: "El ser vivo más grande del planeta con 2,300 km de arrecifes, Patrimonio UNESCO, hogar de 1,500 especies de peces." },
       { name: "Uluru", description: "Monolito sagrado aborigen de 348 metros en el desierto de Australia Central, Patrimonio UNESCO y símbolo espiritual de los anangu." },
       { name: "Gran Ruta Oceánica", description: "Una de las rutas costeras más espectaculares del mundo en Victoria, con los Doce Apóstoles, formaciones rocosas emergiendo del mar." },

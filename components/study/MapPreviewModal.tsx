@@ -1,5 +1,6 @@
 'use client'
 
+import { useLanguage } from '@/contexts/LanguageContext'
 import { useEffect, useState } from 'react'
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps'
 
@@ -58,6 +59,7 @@ interface Props {
   latlng: [number, number]
   area: number
   subregion: string
+  nameEs?: string
 }
 
 export default function MapPreviewModal({
@@ -68,10 +70,12 @@ export default function MapPreviewModal({
   continent,
   latlng,
   area,
-  subregion
+  subregion,
+  nameEs
 }: Props) {
 
   const [notFound, setNotFound] = useState(false)
+  const { t, language } = useLanguage()
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -108,8 +112,8 @@ export default function MapPreviewModal({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <div>
-            <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Ubicación</p>
-            <p className="text-lg font-medium">{countryName}</p>
+            <p className="text-xs text-white/40 uppercase tracking-widest mb-1">{t('country.location')}</p>
+            <p className="text-lg font-medium">{language === 'es' && nameEs ? nameEs : countryName}</p>
           </div>
           <button
             onClick={onClose}
@@ -176,7 +180,7 @@ export default function MapPreviewModal({
 
         <div className="px-6 py-3 border-t border-white/10">
           <p className="text-xs text-white/30 text-center">
-            Presiona Escape o haz clic fuera para cerrar
+            {t('country.close')}
           </p>
         </div>
       </div>

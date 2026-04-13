@@ -2,6 +2,7 @@
 
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps'
 import { useQuizStore } from '@/store/quizStore'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const GEO_URLS: Record<string, string> = {
   europe:   'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json',
@@ -72,6 +73,7 @@ interface Props {
 }
 
 export default function QuizMap({ continent }: Props) {
+  const { t } = useLanguage()
   const { queue, currentIndex, results, countries } = useQuizStore()
 
   const currentCode = queue[currentIndex]
@@ -157,10 +159,10 @@ export default function QuizMap({ continent }: Props) {
 
       <div className="absolute bottom-4 left-4 flex gap-4">
         {[
-          { color: '#378ADD', label: 'Actual' },
-          { color: '#1D9E75', label: 'Correcto' },
-          { color: '#E24B4A', label: 'Fallido' },
-          { color: '#888780', label: 'Saltado' },
+          { color: '#378ADD', label: t('quiz.map.current') },
+          { color: '#1D9E75', label: t('quiz.map.correct') },
+          { color: '#E24B4A', label: t('quiz.map.failed') },
+          { color: '#888780', label: t('quiz.map.skipped') },
         ].map((item) => (
           <div key={item.label} className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full" style={{ background: item.color }} />

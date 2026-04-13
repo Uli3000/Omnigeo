@@ -1,10 +1,12 @@
 "use client";
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname: string = usePathname();
+  const { language, setLanguage, t } = useLanguage();
 
   const isActive = (path: string): boolean => {
     if (path === "/" && pathname === "/") return true;
@@ -15,10 +17,10 @@ export default function Header() {
   };
 
   const navItems = [
-    { href: "/", label: "Inicio" },
-    { href: "/study/europe", label: "Estudio" },
-    { href: "/quiz/europe", label: "Quiz" },
-    { href: "/history", label: "Historial" },
+    { href: '/', label: t('nav.home') },
+    { href: '/study/europe', label: t('nav.study') },
+    { href: '/quiz/europe', label: t('nav.quiz') },
+    { href: '/history', label: t('nav.history') },
   ] as const;
 
   return (
@@ -27,6 +29,21 @@ export default function Header() {
         
         <div className="font-bold text-white text-xl tracking-wide">
           OmniGeo
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          {(['es', 'en'] as const).map((lang) => (
+            <button
+              key={lang}
+              onClick={() => setLanguage(lang)}
+              className={`text-xs px-2 py-1 rounded transition-colors ${
+                language === lang
+                  ? 'text-white bg-white/10'
+                  : 'text-white/40 hover:text-white/70'
+              }`}
+            >
+              {lang.toUpperCase()}
+            </button>
+          ))}
         </div>
 
         <nav className="absolute left-1/2 -translate-x-1/2">

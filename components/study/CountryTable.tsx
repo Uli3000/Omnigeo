@@ -6,6 +6,7 @@ import { Country } from '@/types/country'
 import { CONTINENTS } from '@/lib/constants'
 import Link from 'next/link'
 import MapPreviewModal from './MapPreviewModal'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface Props {
   countries: Country[]
@@ -14,11 +15,12 @@ interface Props {
 
 export default function CountryTable({ countries, continent }: Props) {
   const router = useRouter()
+  const { t, language } = useLanguage()
   const currentContinent = CONTINENTS.find((c) => c.key === continent)
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [selectedCountry, setSelectedCountry] = useState<{code: string; name: string; latlng: [number, number]; area: number; subregion: string} | null>(null)
+  const [selectedCountry, setSelectedCountry] = useState<{code: string; name: string; latlng: [number, number]; area: number; subregion: string; nameEs?: string} | null>(null)
 
   const filtered = countries.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -37,7 +39,7 @@ export default function CountryTable({ countries, continent }: Props) {
         <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
             <h1 className="text-2xl font-semibold">
-                {currentContinent?.label} Nations
+                {currentContinent?.label} {t('study.title')}
             </h1>
             <div className="flex gap-2">
                 {CONTINENTS.map((c) => (
@@ -50,7 +52,7 @@ export default function CountryTable({ countries, continent }: Props) {
                         : 'bg-white/10 text-white/50 hover:bg-white/20'
                     }`}
                 >
-                    {c.label}
+                    {t(`continent.${c.key}`)}
                 </Link>
                 ))}
             </div>
@@ -58,7 +60,7 @@ export default function CountryTable({ countries, continent }: Props) {
 
             <div className="text-right">
             <p className="text-xs text-white/40 uppercase tracking-widest mb-1 text-center">Total</p>
-            <p className="text-3xl font-semibold">{countries.length} <span className="text-sm text-white/30 font-normal">Paises.</span></p>
+            <p className="text-3xl font-semibold">{countries.length} <span className="text-sm text-white/30 font-normal">{t('study.countries').charAt(0).toUpperCase() + t('study.countries').slice(1,t('study.countries').length)}.</span></p>
             </div>
         </div>
 
@@ -68,7 +70,7 @@ export default function CountryTable({ countries, continent }: Props) {
             </svg>
             <input
                 type="text"
-                placeholder="Buscar país o capital..."
+                placeholder={t('study.search')}
                 value={search}
                 onChange={(e) => {
                 setSearch(e.target.value)
@@ -88,11 +90,11 @@ export default function CountryTable({ countries, continent }: Props) {
       
         <div className="rounded-lg border border-white/10 overflow-hidden">        
         <div className="grid grid-cols-[60px_1fr_1fr_160px_80px] bg-white/5 px-6 py-3 border-b border-white/10 gap-6">
-            <span className="text-xs text-white/40 uppercase tracking-widest">Bandera</span>
-            <span className="text-xs text-white/40 uppercase tracking-widest">Pais</span>
-            <span className="text-xs text-white/40 uppercase tracking-widest">Capital</span>
-            <span className="text-xs text-white/40 uppercase tracking-widest">Region</span>
-            <span className="text-xs text-white/40 uppercase tracking-widest text-center">Mapa</span>
+            <span className="text-xs text-white/40 uppercase tracking-widest">{t('study.flag')}</span>
+            <span className="text-xs text-white/40 uppercase tracking-widest">{t('study.country')}</span>
+            <span className="text-xs text-white/40 uppercase tracking-widest">{t('study.capital')}</span>
+            <span className="text-xs text-white/40 uppercase tracking-widest">{t('study.region')}</span>
+            <span className="text-xs text-white/40 uppercase tracking-widest text-center">{t('study.interactive')}</span>
         </div>
 
         {paginatedCountries.map((country, index) => (
@@ -108,11 +110,11 @@ export default function CountryTable({ countries, continent }: Props) {
                     alt={`Bandera de ${country.name}`}
                     className="w-8 h-5 object-cover rounded-sm"
                 />
-                <span className="text-sm font-medium">{country.name}</span>
+                <span className="text-sm font-medium">{language === 'es' && country.nameEs ? country.nameEs : country.name}</span>
                 <span className="text-sm text-white/60">{country.capital}</span>
                 <span className="text-xs px-2 py-1 rounded bg-white/10 text-white/60 w-fit uppercase tracking-wide">{country.subregion}</span>
                 <div className="flex justify-center">
-                    <button onClick={(e) => {e.stopPropagation(); setSelectedCountry({ code: country.cca3, name: country.name,latlng: country.latlng, area: country.area, subregion: country.subregion })}} className="p-2 rounded hover:bg-white/10 transition-colors text-white/40 hover:text-white/80">
+                    <button onClick={(e) => {e.stopPropagation(); setSelectedCountry({ code: country.cca3, name: country.name,latlng: country.latlng, area: country.area, subregion: country.subregion, nameEs: country.nameEs, })}} className="p-2 rounded hover:bg-white/10 transition-colors text-white/40 hover:text-white/80">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
                         <line x1="9" y1="3" x2="9" y2="18"/>
@@ -126,7 +128,8 @@ export default function CountryTable({ countries, continent }: Props) {
 
         <div className="flex items-center justify-between px-6 py-4 border-t border-white/10">
             <span className="text-xs text-white/40">
-                Mostrando {filtered.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1} hasta {Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} de {filtered.length} paises
+                {t('study.showing')} {filtered.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1} {t('study.of')} {Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} {t('study.of')} {filtered.length} {t('study.countries')}
+                {search && ` · ${t('study.filtered')} ${countries.length}`}
             </span>
 
             <div className="flex items-center gap-1">
@@ -171,6 +174,7 @@ export default function CountryTable({ countries, continent }: Props) {
             latlng={selectedCountry?.latlng ?? [0, 0]}
             area={selectedCountry?.area ?? 0}
             subregion={selectedCountry?.subregion ?? ''}
+            nameEs={selectedCountry?.nameEs}
         />
 
     </div>

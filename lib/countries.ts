@@ -24,6 +24,7 @@ function normalize(raw: any, region: string): Country {
     languages,
     currencies,
     latlng:       raw.latlng ?? [0, 0],
+    nameEs: raw.translations?.spa?.common,
   }
 }
 
