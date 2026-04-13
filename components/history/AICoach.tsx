@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { Session } from '@/types/country'
-import { GoogleGenerativeAI } from '@google/generative-ai'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 interface Props {
@@ -39,11 +38,13 @@ export default function AICoach({ sessions }: Props) {
       : `Eres un coach de geografía amigable. Analiza estos resultados de quiz de geografía y da un análisis breve en español (máximo 4 oraciones) identificando patrones en los errores. Por ejemplo si falla más en países pequeños, islas, cierta subregión, países con nombres similares, capitales poco conocidas, etc. Si hay datos de capitales fallidas también analízalos. Sé específico con los países y capitales mencionados y termina con un consejo concreto de qué estudiar. Datos: ${JSON.stringify(summary)}`
 
     try {
-      const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_KEY ?? '')
-      const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' })
-      const result = await model.generateContent(prompt)
-      const text = result.response.text()
-      setAnalysis(text ?? 'No se pudo generar el análisis.')
+      const res = await fetch('/api/coach', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      })
+      const data = await res.json()
+      setAnalysis(data.analysis ?? 'No se pudo generar el análisis.')
     } catch {
       setAnalysis('Error al conectar con el coach. Intenta de nuevo.')
     }
