@@ -105,5 +105,3 @@ A web application for studying and practicing world geography. Learn countries, 
 | Storage | localStorage |
 
 ---
-
-Construido con Next.js, Tailwind CSS y mucha curiosidad geográfica.
