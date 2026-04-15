@@ -27,7 +27,9 @@ export function useHistory() {
 
     const days = []
     for (let i = 1; i <= daysInMonth; i++) {
-      const date = new Date(year, month, i).toISOString().split('T')[0]
+      const mm = String(month + 1).padStart(2, '0')
+      const dd = String(i).padStart(2, '0')
+      const date = `${year}-${mm}-${dd}`
       days.push({ date, count: counts[date] ?? 0 })
     }
 

@@ -14,7 +14,9 @@ export default function HeatmapCalendar({ data }: Props) {
   let currentWeek: { date: string; count: number }[] = []
 
   // rellenar días vacíos al inicio para alinear con el día de la semana
-  const firstDay = new Date(data[0]?.date)
+  const dateStr = data[0]?.date // '2026-04-01'
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const firstDay = new Date(year, month - 1, day)
   const startPadding = firstDay.getDay()
   for (let i = 0; i < startPadding; i++) {
     currentWeek.push({ date: '', count: -1 })

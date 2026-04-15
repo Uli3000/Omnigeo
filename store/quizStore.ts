@@ -38,7 +38,12 @@ export const useQuizStore = create<QuizState>((set, get) => {
 
     const session: Session = {
       id: crypto.randomUUID(),
-      date: new Date().toISOString(),
+      date: (() => {
+        const now = new Date()
+        const mm = String(now.getMonth() + 1).padStart(2, '0')
+        const dd = String(now.getDate()).padStart(2, '0')
+        return `${now.getFullYear()}-${mm}-${dd}T${now.toTimeString().split(' ')[0]}`
+      })(),
       continent,
       mode: 'name',
       capitalsMode,
