@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useQuizStore } from '@/store/quizStore'
 import { Country } from '@/types/country'
 import QuizMap from './QuizMap'
@@ -16,6 +16,7 @@ interface Props {
 }
 
 export default function QuizClient({ countries, continent }: Props) {
+  const mapRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const { t } = useLanguage()
   const { status, startQuiz, resetQuiz, toggleCapitalsMode, capitalsMode } = useQuizStore()
@@ -23,6 +24,17 @@ export default function QuizClient({ countries, continent }: Props) {
   useEffect(() => {
     resetQuiz()
   }, [])
+
+  const handleStartQuiz = () => {
+    startQuiz(countries, continent)
+
+    setTimeout(() => {
+      mapRef.current?.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start'
+      })
+    }, 100)
+  }
 
   if (status === 'idle') {
     return (
@@ -64,8 +76,7 @@ export default function QuizClient({ countries, continent }: Props) {
           </div>
 
           <button
-            onClick={() => startQuiz(countries, continent)}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+            onClick={() => handleStartQuiz()} className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
           >
             {t('quiz.start')}
           </button>
@@ -79,7 +90,7 @@ export default function QuizClient({ countries, continent }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white flex">
+    <div className="min-h-screen bg-[#0a0a0f] text-white flex" ref={mapRef}>
       <QuizMap continent={continent} />
       <QuizPanel />
     </div>
