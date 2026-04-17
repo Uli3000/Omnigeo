@@ -4,7 +4,8 @@ import { CONTINENTS } from '@/lib/constants'
 import Link from 'next/link'
 import { useQuizStore } from '@/store/quizStore'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
+import confetti from 'canvas-confetti'
 
 interface Props {
   continent: string
@@ -24,6 +25,16 @@ export default function QuizResults({ continent }: Props) {
   const minutes = Math.floor(timeSeconds / 60)
   const seconds = timeSeconds % 60
   const firstTry = results.filter((r) => r.attemptsUsed === 1 && r.status === 'correct').length
+
+  useEffect(()=>{
+    if(percentage === 100 && correct === total){
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+      })
+    }
+  },[percentage])
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center p-8">
